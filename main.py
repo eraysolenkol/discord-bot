@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 import requests ,json
-TOKEN = "OTUxMDgwNjcyOTIyMDU0Njc2.YiiQ5g.ADcXTLbvHwC7qRT29z78_Leg45M"
+import os
 
 #intents = discord.Intents(messages=True , guilds=True,reactions=True , members=True , presences =True)
 intents = discord.Intents().all()
@@ -23,4 +23,4 @@ async def on_ready():
 #LEVEL ,MEDIA
 
 
-bot.run(TOKEN)
+bot.run(os.environ['BOT_TOKEN'])
