@@ -125,7 +125,7 @@ class clashroyale(commands.Cog):
     @commands.command()
     async def maçlar(self, ctx ,tag:str):
         
-        headers = {'Authorization': f'Bearer {new_token}'}
+        headers = {'Authorization': f'Bearer {my_token}'}
         tag = tag.replace("#","%23")
         r = requests.get(f"https://proxy.royaleapi.dev/v1/players/{tag}/battlelog",headers=headers)
         data = json.loads(r.text)
