@@ -121,6 +121,61 @@ class clashroyale(commands.Cog):
 {specialChests}```""",color=discord.Color.blurple())
         embed.set_thumbnail(url=f'https://raw.githubusercontent.com/weeco/clash-royale-assets/master/images/chests/{firstChestLink}.png')
         await ctx.send(embed=embed)
+        
+    @commands.command()
+    async def maçlar(self, ctx ,tag:str):
+        
+        headers = {'Authorization': f'Bearer {new_token}'}
+        tag = tag.replace("#","%23")
+        r = requests.get(f"https://proxy.royaleapi.dev/v1/players/{tag}/battlelog",headers=headers)
+        data = json.loads(r.text)
+        i = 0
+        fieldNames = []
+        fieldValues = []
+        flagArena = 0
+        arenaId = ""
+        while i < 12:
+            gameData = data[i]
+            gameType = gameData['type']
+            if "PvP" in gameType and flagArena == 0:
+                arenaId = gameData['arena']['id']
+                flagArena = 1
+            battleTime = gameData['battleTime']
+            teamName = gameData['team'][0]['name']
+            teamTag = gameData['team'][0]['tag']
+            teamTrophy = gameData['team'][0]['startingTrophies']
+            teamCrowns = gameData['team'][0]['crowns']
+            opponentName = gameData['opponent'][0]['name']
+            opponentTag = gameData['opponent'][0]['tag']
+            opponentTrophy = gameData['opponent'][0]['startingTrophies']
+            opponentCrowns = gameData['opponent'][0]['crowns']
+            whoWinName = teamName if teamCrowns > opponentCrowns else opponentName
+            totalCrowns = teamCrowns if teamCrowns > opponentCrowns else opponentCrowns
+            date_format = "%Y%m%dT%H%M%S.%fZ" 
+            mytime = time.mktime(datetime.datetime.strptime(battleTime, date_format).timetuple())
+            discordTime = f"<t:{int(mytime)}:R>"
+            k = 0
+            crownString = ""
+            while k < totalCrowns:
+                crownString += "👑"
+                k +=1
+            embedName = f"{teamName} ({teamTrophy}) VS {opponentName} ({opponentTrophy}) [{gameType} game]"
+            embedValue = f"""```yaml
+Kazanan: {whoWinName}```
+{crownString}
+({teamTag} VS {opponentTag})
+{discordTime}"""
+            fieldNames.append(embedValue)
+            fieldValues.append(embedName)
+            i+= 1
+
+        embed = discord.Embed(title=f"GEÇMİŞ MAÇLAR",description="",color=discord.Color.blurple())
+        j = 0
+        while j < 12:
+            embed.add_field(name=fieldValues[j],value=fieldNames[j])
+            j += 1
+        embed.set_thumbnail(url=f'https://raw.githubusercontent.com/weeco/clash-royale-assets/master/images/arenas/{arenaId}.png')
+        await ctx.send(embed=embed)
 
 
 def setup(bot):        
