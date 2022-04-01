@@ -6,7 +6,7 @@ import os
 intents = discord.Intents().all()
 bot = commands.Bot(command_prefix="d.",intents=intents)
 
-cogs = ["troll","havadurumu","hayvanlar","pokemon","zar","ban_unban","on_member_join","on_member_remove","yardım","sil","nezaman","meme","incele","tahmin","pythonquiz","sunucu","valorant","music_cog","renk","film","döviz"]
+cogs = ["clashroyale","troll","havadurumu","hayvanlar","pokemon","zar","ban_unban","on_member_join","on_member_remove","yardım","sil","nezaman","meme","incele","tahmin","pythonquiz","sunucu","valorant","music_cog","renk","film","döviz"]
 
 for cog in cogs:
         bot.load_extension(cog) 
