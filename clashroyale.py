@@ -3,6 +3,8 @@ import discord
 import requests,json
 from urllib.parse import quote
 import os
+import datetime
+import time
 
 my_token = os.environ['CR_API_TOKEN']
 
